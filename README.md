@@ -193,7 +193,13 @@ Frontend runs on `http://localhost:3000`, API on `http://localhost:8000`.
 
 ## 🤝 Contributing
 
-Contributions, ideas and bug reports are welcome. Open an issue to start a discussion, or send a pull request.
+Contributions, ideas and bug reports are welcome. Open an issue to start a discussion, or send a pull request. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+
+---
+
+## 📄 License
+
+Released under the [MIT License](LICENSE).
 
 ---
 
