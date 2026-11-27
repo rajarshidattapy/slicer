@@ -1,136 +1,256 @@
-# Slicer
 
-### Your cravings. Your budget. Our job to get you MORE.
+<a id="top"></a>
 
-**The smartest way to find, compare and score food deals across India's favourite delivery platforms.**
+<div align="center">
 
-Why settle for 6 momos when ₹20 more could get you 10? Why manually hunt for coupons across five apps when you could have one place doing the math for you?
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:FC8019,50:E23744,100:7B42F6&height=210&section=header&text=Slicer&fontSize=90&fontColor=ffffff&fontAlignY=38&desc=Your%20cravings.%20Your%20budget.%20Our%20job%20to%20get%20you%20MORE.&descSize=18&descAlignY=60&animation=fadeIn" alt="Slicer" width="100%" />
 
-Search what you're craving. Set what you're willing to spend. We'll find the best combination of food, quantity and discounts worth your money.
+<br/>
 
-**More food. Less spending. No deal-hunting.**
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=FC8019&center=true&vCenter=true&width=720&lines=Search+what+you+crave.+Set+what+you'll+spend.;We+find+the+best+food%2C+quantity+%26+discount+combo.;More+food.+Less+spending.+No+deal-hunting." alt="tagline" />
 
----
+<br/><br/>
 
-## 🛵 One craving. Multiple platforms. One winner.
+<!-- Live brand logos pulled from each platform's own domain -->
+<table>
+  <tr>
+    <td align="center" width="120">
+      <a href="https://www.swiggy.com"><img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=128" width="48" alt="Swiggy" /></a><br/>
+      <sub><b>Swiggy</b></sub>
+    </td>
+    <td align="center" width="120">
+      <a href="https://www.zomato.com"><img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=128" width="48" alt="Zomato" /></a><br/>
+      <sub><b>Zomato</b></sub>
+    </td>
+    <td align="center" width="120">
+      <a href="https://www.eatsure.com"><img src="https://www.google.com/s2/favicons?domain=eatsure.com&sz=128" width="48" alt="EatSure" /></a><br/>
+      <sub><b>EatSure</b></sub>
+    </td>
+    <td align="center" width="120">
+      <a href="https://magicpin.in"><img src="https://www.google.com/s2/favicons?domain=magicpin.in&sz=128" width="48" alt="magicpin" /></a><br/>
+      <sub><b>magicpin</b></sub>
+    </td>
+    <td align="center" width="120">
+      <a href="https://ondc.org"><img src="https://www.google.com/s2/favicons?domain=ondc.org&sz=128" width="48" alt="ONDC" /></a><br/>
+      <sub><b>ONDC</b></sub>
+    </td>
+  </tr>
+</table>
 
-&lt;p align="center"&gt; &lt;img src="[https://img.shields.io/badge/Swiggy-FE6D26?style=for-the-badge&amp;logo=swiggy&amp;logoColor=white](https://img.shields.io/badge/Swiggy-FE6D26?style=for-the-badge&logo=swiggy&logoColor=white)" /&gt; &lt;img src="[https://img.shields.io/badge/Zomato-E23744?style=for-the-badge&amp;logo=zomato&amp;logoColor=white](https://img.shields.io/badge/Zomato-E23744?style=for-the-badge&logo=zomato&logoColor=white)" /&gt; &lt;img src="[https://img.shields.io/badge/EatSure-262626?style=for-the-badge&amp;logoColor=white](https://img.shields.io/badge/EatSure-262626?style=for-the-badge&logoColor=white)" /&gt; &lt;img src="[https://img.shields.io/badge/Magicpin-7B42F6?style=for-the-badge&amp;logoColor=white](https://img.shields.io/badge/Magicpin-7B42F6?style=for-the-badge&logoColor=white)" /&gt; &lt;img src="[https://img.shields.io/badge/ONDC-008C72?style=for-the-badge&amp;logoColor=white](https://img.shields.io/badge/ONDC-008C72?style=for-the-badge&logoColor=white)" /&gt; &lt;/p&gt;
+<br/>
 
-## 🤤 What makes us different?
+<!-- Tech + status badges -->
+<p>
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" />
+</p>
 
-### 🔍 Search. Don't scroll.
+<p>
+  <img src="https://img.shields.io/badge/status-in%20development-F59E0B?style=flat-square" alt="status" />
+  <img src="https://img.shields.io/badge/PRs-welcome-22C55E?style=flat-square" alt="PRs welcome" />
+  <img src="https://img.shields.io/badge/made%20for-the%20Indian%20appetite-E23744?style=flat-square" alt="made in India" />
+  <a href="https://github.com/<your-username>/slicer/stargazers"><img src="https://img.shields.io/github/stars/<your-username>/slicer?style=flat-square&color=FC8019" alt="stars" /></a>
+</p>
 
-Search for anything — biryani, pizza, burgers, momos, rolls or whatever your stomach demands. Discover comparable dishes across multiple platforms.
+<h3>
 
-### 💸 Your budget, your rules.
+[Why Slicer](#-why-slicer) · [Philosophy](#-the-philosophy) · [How It Works](#-how-it-works) · [Tech Stack](#%EF%B8%8F-tech-stack) · [Getting Started](#-getting-started) · [Roadmap](#%EF%B8%8F-roadmap)
 
-Set your ideal spending amount. We'll also consider whether spending a little extra gets you significantly more food.
+</h3>
+</div>
 
-### 🥗 Food your way.
+<!-- ───────────────────────────  PITCH  ─────────────────────────── -->
 
-- Vegetarian-only or non-vegetarian preferences.
-- Restaurant distance from your home.
-- Food categories and portion preferences.
+> ### Why settle for 6 momos when ₹20 more could get you 10?
+> Why test coupons across five apps when one place could do the math for you?
 
-### 🎟️ Coupon intelligence.
+Tell Slicer what you're craving and what you're willing to spend. It finds the best combination of **food, quantity and discounts** across India's favourite delivery platforms, and shows you where every rupee goes furthest.
 
-No more manually testing random coupon codes.
+<div align="center">
 
-Find eligible offers, compare discounts, account for minimum order values and identify the best possible deal.
+### 🍛 More food. Less spending. Zero deal-hunting.
 
-### 🍱 Maximum food. Minimum regret.
-
-We don't blindly recommend the cheapest option.
-
-We look at:
-
-- Total pieces and serving quantity.
-- Actual payable amount.
-- Discounts and delivery charges.
-- Cost per piece or serving.
-- Whether spending a little extra is genuinely worth it.
-
-**The goal isn't to spend the least. It's to get the most out of every rupee.**
-
----
-
-## 🧠 The philosophy
-
-Imagine you have ₹200 to spend on chicken momos.
-
-
-| Platform | Pieces | Final price |
-| -------- | ------ | ----------- |
-| Swiggy   | 6      | ₹179        |
-| Zomato   | 10     | ₹205        |
-| EatSure  | 12     | ₹229        |
-
-
-*Illustrative example.*
-
-Most comparison websites would simply recommend Swiggy.
-
-We ask a better question:
-
-**Is spending ₹26 extra worth getting four additional momos?**
-
-That's the difference between finding the cheapest deal and finding the best deal.
-
----
-
-## ⚡ How it works
-
-1. **Search** — Tell us what you're craving.
-2. **Set** — Choose your budget, dietary preference and distance.
-3. **Compare** — Explore matching dishes across delivery platforms.
-4. **Optimize** — Evaluate coupons, quantities and final prices.
-5. **Order** — Pick your winning deal and head to the ordering platform.
+</div>
 
 ---
 
-## 🛠️ Built with
+## 🤤 Why Slicer
 
+|  | Feature | What you get |
+|:--:|:--|:--|
+| 🔍 | **Search, don't scroll** | Biryani, pizza, momos, rolls, whatever your stomach demands. Comparable dishes from multiple platforms, side by side. |
+| 💸 | **Your budget, your rules** | Set your ideal spend. Slicer also flags when a *slightly* higher spend gets you *significantly* more food. |
+| 🥗 | **Food your way** | Veg-only or non-veg, restaurant distance from home, food categories and portion preferences. |
+| 🎟️ | **Coupon intelligence** | Finds eligible offers, respects minimum order values and surfaces the best possible deal. No more random code roulette. |
+| 🍱 | **Quantity-aware scoring** | Compares pieces, servings and cost per piece, not just sticker price. |
 
-| Layer        | Technology                           |
-| ------------ | ------------------------------------ |
-| Frontend     | Next.js                              |
-| Backend      | Python, FastAPI                      |
-| Database     | PostgreSQL                           |
-| Caching      | Redis                                |
-| Intelligence | Dish matching and price optimization |
-| Integrations | Food delivery platform data sources  |
+<details>
+<summary><b>🧮 What goes into a Slicer score</b></summary>
 
+<br/>
+
+- 🍗 Total pieces and serving quantity
+- 💰 Actual payable amount after discounts
+- 🛵 Delivery charges and fees
+- 📏 Cost per piece / per serving
+- 🤔 Whether spending a little extra is *genuinely* worth it
+
+> The goal isn't to spend the least. It's to get the most out of every rupee.
+
+</details>
+
+---
+
+## 🧠 The Philosophy
+
+Say you have **₹200** to spend on chicken momos.
+
+<div align="center">
+
+| Platform | Pieces | Final price | Cost / piece |
+|:--|:--:|--:|--:|
+| <img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=32" width="14"/> Swiggy | 6 | ₹179 | ₹29.83 |
+| <img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=32" width="14"/> Zomato | 10 | ₹205 | ₹20.50 |
+| <img src="https://www.google.com/s2/favicons?domain=eatsure.com&sz=32" width="14"/> EatSure | 12 | ₹229 | **₹19.08** |
+
+<sub><i>Illustrative example.</i></sub>
+
+</div>
+
+A typical comparison site says: *"Swiggy is cheapest, go with that."*
+
+Slicer asks a better question:
+
+> ### Is paying ₹26 extra for 4 more momos worth it?
+> That's ₹6.50 per extra momo — far below what you paid for the first six.
+
+**That's the difference between finding the cheapest deal and finding the best deal.**
+
+---
+
+## ⚡ How It Works
+
+```mermaid
+flowchart LR
+    A["🔍 Search<br/>what you crave"] --> B["⚙️ Set<br/>budget · diet · distance"]
+    B --> C["📊 Compare<br/>dishes across platforms"]
+    C --> D["🧮 Optimize<br/>coupons · quantity · final price"]
+    D --> E["🛒 Order<br/>on the winning platform"]
+    style A fill:#FC8019,stroke:#fff,color:#fff
+    style B fill:#E23744,stroke:#fff,color:#fff
+    style C fill:#7B42F6,stroke:#fff,color:#fff
+    style D fill:#008C72,stroke:#fff,color:#fff
+    style E fill:#262626,stroke:#fff,color:#fff
+```
+
+1. **Search** — tell us what you're craving.
+2. **Set** — choose your budget, dietary preference and distance.
+3. **Compare** — explore matching dishes across delivery platforms.
+4. **Optimize** — evaluate coupons, quantities and final prices.
+5. **Order** — pick your winning deal and head to the ordering platform.
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+| Layer | Technology |
+|:--|:--|
+| 🖥️ **Frontend** | Next.js |
+| ⚙️ **Backend** | Python · FastAPI |
+| 🗄️ **Database** | PostgreSQL |
+| ⚡ **Caching** | Redis |
+| 🧠 **Intelligence** | Dish matching & price optimization |
+| 🔌 **Integrations** | Food delivery platform data sources |
+
+</div>
+
+---
+
+## 🚀 Getting Started
+
+> ⚠️ Slicer is under active development. Commands below are a starting point — adjust them to match your repo.
+
+```bash
+# Clone
+git clone https://github.com/<your-username>/slicer.git
+cd slicer
+
+# Backend
+cd backend
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+
+# Frontend (new terminal)
+cd frontend
+npm install
+npm run dev
+```
+
+<details>
+<summary><b>🔐 Environment variables</b></summary>
+
+<br/>
+
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/slicer
+REDIS_URL=redis://localhost:6379
+```
+
+Frontend runs on `http://localhost:3000`, API on `http://localhost:8000`.
+
+</details>
 
 ---
 
 ## 🗺️ Roadmap
 
-- Multi-platform food search
-- Restaurant and dish matching
-- Budget and distance-based filtering
-- Vegetarian and non-vegetarian preferences
-- Automatic coupon discovery
-- Final checkout price comparison
-- Quantity-aware meal optimization
-- Price history and deal tracking
-- Personalized recommendations
+- [x] Project vision & architecture
+- [ ] Multi-platform food search
+- [ ] Restaurant & dish matching
+- [ ] Budget & distance-based filtering
+- [ ] Vegetarian / non-vegetarian preferences
+- [ ] Automatic coupon discovery
+- [ ] Final checkout price comparison
+- [ ] Quantity-aware meal optimization
+- [ ] Price history & deal tracking
+- [ ] Personalized recommendations
 
 ---
 
-## ❤️ Built for the Indian appetite
+## 🤝 Contributing
 
-We understand that value matters.
-
-Sometimes you want the cheapest biryani. Sometimes you want the biggest pizza. Sometimes spending ₹30 more makes an entire meal worth it.
-
-BhookhBudget is built around one simple belief:
-
-**You deserve to know what your money can actually get you.**
+Contributions, ideas and bug reports are welcome. Open an issue to start a discussion, or send a pull request.
 
 ---
 
-&lt;p align="center"&gt; &lt;h2 align="center"&gt;Eat More. Spend Smarter. 🍛&lt;/h2&gt; &lt;p align="center"&gt;&lt;b&gt;Stop hunting for deals. Let the deals find you.&lt;/b&gt;&lt;/p&gt; &lt;/p&gt;
+## ❤️ Built for the Indian Appetite
 
----
+Sometimes you want the cheapest biryani. Sometimes the biggest pizza. Sometimes spending ₹30 more makes the whole meal worth it.
 
-&lt;sub&gt;Disclaimer: Slicer is an independent project and is not affiliated with, endorsed by, or officially partnered with Swiggy, Zomato, EatSure, Magicpin or ONDC. Platform integrations and offers are subject to data availability and applicable terms.&lt;/sub&gt;
+Slicer is built around one belief:
+
+> **You deserve to know what your money can actually get you.**
+
+<div align="center">
+
+<br/>
+
+## Eat More. Spend Smarter. 🍛
+
+**Stop hunting for deals. Let the deals find you.**
+
+<br/>
+
+<sub><b>Disclaimer:</b> Slicer is an independent project and is not affiliated with, endorsed by, or officially partnered with Swiggy, Zomato, EatSure, magicpin or ONDC. Platform integrations and offers are subject to data availability and applicable terms.</sub>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:7B42F6,50:E23744,100:FC8019&height=120&section=footer" alt="footer" width="100%" />
+
+<a href="#top">⬆️ back to top</a>
+
+</div>
