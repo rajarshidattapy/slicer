@@ -1,0 +1,120 @@
+import json
+import logging
+from urllib.parse import quote, quote_plus
+from api.models import PlatformProduct
+from scraper.base import BaseScraper
+
+logger = logging.getLogger(__name__)
+
+IMG_PREFIX = "https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_272,w_252/"
+
+
+def _money(val) -> float | None:
+    if isinstance(val, dict):
+        units = val.get("units")
+        if units in (None, ""):
+            return None
+        try:
+            return float(units) + float(val.get("nanos") or 0) / 1e9
+        except (ValueError, TypeError):
+            return None
+    if isinstance(val, (int, float, str)) and str(val).strip():
+        try:
+            return float(str(val).replace("₹", "").replace(",", "").strip())
+        except (ValueError, TypeError):
+            return None
+    return None
+
+
+def parse_search(payload: dict) -> list[PlatformProduct]:
+    products: list[PlatformProduct] = []
+    for card in (payload.get("data") or {}).get("cards") or []:
+        inner = ((card.get("card") or {}).get("card") or {})
+        items = ((inner.get("gridElements") or {}).get("infoWithStyle") or {}).get("items") or []
+        for item in items:
+            product_id = item.get("productId")
+            for var in item.get("variations") or []:
+                price_info = var.get("price") or {}
+                name = var.get("displayName") or item.get("displayName")
+                offer_price = _money(price_info.get("offerPrice"))
+                price = offer_price if offer_price is not None else _money(price_info.get("mrp"))
+                if not name or price is None:
+                    continue
+                images = var.get("imageIds") or []
+                in_stock = bool(item.get("inStock", True)) and bool(item.get("isAvail", True)) and bool((var.get("inventory") or {}).get("inStock", True))
+                products.append(
+                    PlatformProduct(
+                        platform="instamart",
+                        name=str(name).strip(),
+                        price=price,
+                        mrp=_money(price_info.get("mrp")),
+                        quantity=var.get("quantityDescription"),
+                        in_stock=in_stock,
+                        product_url=f"https://www.swiggy.com/instamart/item/{product_id}" if product_id else None,
+                        image_url=IMG_PREFIX + images[0] if images else None,
+                        eta="10-15 mins",
+                    )
+                )
+    return products
+
+
+class InstamartScraper(BaseScraper):
+    def __init__(self):
+        super().__init__("instamart")
+        self._located: tuple[float, float] | None = None
+
+    async def search(
+        self, query: str, pin: str, lat: float | None = None, lon: float | None = None
+    ) -> list[PlatformProduct]:
+        if lat is None or lon is None:
+            return []
+        async with self.lock:
+            context = await self.get_context()
+            if self._located != (lat, lon):
+                loc = json.dumps({"address": "", "lat": lat, "lng": lon, "id": "", "annotation": "", "name": ""})
+                await context.clear_cookies()
+                await context.add_cookies([
+                    {"name": "userLocation", "value": quote(loc), "domain": ".swiggy.com", "path": "/"},
+                    {"name": "lat", "value": str(lat), "domain": ".swiggy.com", "path": "/"},
+                    {"name": "lng", "value": str(lon), "domain": ".swiggy.com", "path": "/"},
+                ])
+                self._located = (lat, lon)
+            page = await context.new_page()
+            payloads: list[dict] = []
+
+            async def on_response(response):
+                if "/api/instamart/search" in response.url and response.status == 200:
+                    try:
+                        body = await response.json()
+                        if isinstance(body, dict) and body.get("data"):
+                            payloads.append(body)
+                    except Exception as exc:
+                        logger.debug("Failed to parse Instamart search response: %s", exc)
+
+            page.on("response", on_response)
+            try:
+                await page.route(
+                    "**/*",
+                    lambda route: route.abort() if route.request.resource_type in ["image", "media", "font"] else route.continue_(),
+                )
+                url = f"https://www.swiggy.com/instamart/search?custom_back=true&query={quote_plus(query)}"
+                for attempt in range(2):
+                    try:
+                        async with page.expect_response(lambda r: "/api/instamart/search" in r.url and r.status == 200, timeout=18000):
+                            await page.goto(url, wait_until="commit", timeout=18000)
+                        break
+                    except Exception:
+                        if attempt:
+                            raise
+                        logger.warning("Instamart search response did not arrive, reloading once")
+                await page.wait_for_timeout(500)
+            except Exception as exc:
+                self._located = None
+                logger.error("Instamart search failed: %s", exc)
+            finally:
+                page.remove_listener("response", on_response)
+                await page.close()
+            products: list[PlatformProduct] = []
+            for payload in payloads:
+                products.extend(parse_search(payload))
+            return products
