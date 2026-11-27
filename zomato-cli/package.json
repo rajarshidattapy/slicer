@@ -1,0 +1,19 @@
+{
+  "name": "zomato-suite-cli",
+  "version": "0.1.0",
+  "description": "Terminal launcher and public listing CLI for Zomato, District, and Blinkit.",
+  "type": "module",
+  "bin": {
+    "zomato": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check src/cli.js && node --check src/browser.js && node --check src/list.js && node --check src/services.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "playwright-core": "^1.58.2"
+  }
+}
