@@ -1,0 +1,4 @@
+node_modules/
+.swiggy-profile/
+*.log
+

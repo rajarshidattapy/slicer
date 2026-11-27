@@ -154,23 +154,6 @@ flowchart LR
 
 ---
 
-## 🛠️ Tech Stack
-
-<div align="center">
-
-| Layer | Technology |
-|:--|:--|
-| 🖥️ **Frontend** | Next.js |
-| ⚙️ **Backend** | Python · FastAPI |
-| 🗄️ **Database** | PostgreSQL |
-| ⚡ **Caching** | Redis |
-| 🧠 **Intelligence** | Dish matching & price optimization |
-| 🔌 **Integrations** | Food delivery platform data sources |
-
-</div>
-
----
-
 ## 🚀 Getting Started
 
 > ⚠️ Slicer is under active development. Commands below are a starting point — adjust them to match your repo.
@@ -208,49 +191,15 @@ Frontend runs on `http://localhost:3000`, API on `http://localhost:8000`.
 
 ---
 
-## 🗺️ Roadmap
-
-- [x] Project vision & architecture
-- [ ] Multi-platform food search
-- [ ] Restaurant & dish matching
-- [ ] Budget & distance-based filtering
-- [ ] Vegetarian / non-vegetarian preferences
-- [ ] Automatic coupon discovery
-- [ ] Final checkout price comparison
-- [ ] Quantity-aware meal optimization
-- [ ] Price history & deal tracking
-- [ ] Personalized recommendations
-
----
-
 ## 🤝 Contributing
 
 Contributions, ideas and bug reports are welcome. Open an issue to start a discussion, or send a pull request.
 
 ---
 
-## ❤️ Built for the Indian Appetite
-
-Sometimes you want the cheapest biryani. Sometimes the biggest pizza. Sometimes spending ₹30 more makes the whole meal worth it.
-
-Slicer is built around one belief:
-
-> **You deserve to know what your money can actually get you.**
-
-<div align="center">
-
-<br/>
-
-## Eat More. Spend Smarter. 🍛
-
-**Stop hunting for deals. Let the deals find you.**
-
-<br/>
-
 <sub><b>Disclaimer:</b> Slicer is an independent project and is not affiliated with, endorsed by, or officially partnered with Swiggy, Zomato, EatSure, magicpin or ONDC. Platform integrations and offers are subject to data availability and applicable terms.</sub>
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:7B42F6,50:E23744,100:FC8019&height=120&section=footer" alt="footer" width="100%" />
 
-<a href="#top">⬆️ back to top</a>
 
 </div>

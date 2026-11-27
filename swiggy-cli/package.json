@@ -1,0 +1,19 @@
+{
+  "name": "swiggy-terminal-cli",
+  "version": "0.1.0",
+  "description": "Operate Swiggy from the terminal through a user-controlled Chrome session.",
+  "type": "module",
+  "bin": {
+    "swiggy": "./src/cli.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check src/cli.js && node --check src/browser.js && node --check src/swiggy.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "chrome-devtools-mcp": "^1.14.0"
+  }
+}
