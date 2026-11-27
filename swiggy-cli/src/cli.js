@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import {
+  defaultChromeRemoteDebuggingEnabled,
   newSwiggyPage,
   openDefaultChrome,
   verifyDefaultChromeConnection,
@@ -75,6 +76,12 @@ async function main() {
     await waitForEnter(
       "After enabling it, press Enter here; then approve Chrome's connection prompt...",
     );
+    const enabled = await defaultChromeRemoteDebuggingEnabled();
+    if (enabled === false) {
+      throw new Error(
+        "Remote debugging is still OFF. On chrome://inspect/#remote-debugging, turn the switch ON, then run `swiggy setup` again.",
+      );
+    }
     const result = await verifyDefaultChromeConnection();
     console.log(`Connected to your default Chrome: ${result.title}`);
     return;

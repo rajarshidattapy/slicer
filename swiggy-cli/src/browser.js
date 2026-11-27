@@ -1,6 +1,7 @@
 import { execFile, spawn } from "node:child_process";
-import { access } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { constants } from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
@@ -78,6 +79,38 @@ export async function openDefaultChrome(url) {
   child.unref();
 }
 
+function chromeLocalStatePath() {
+  if (process.platform === "win32") {
+    return path.join(
+      process.env.LOCALAPPDATA ?? "",
+      "Google",
+      "Chrome",
+      "User Data",
+      "Local State",
+    );
+  }
+  if (process.platform === "darwin") {
+    return path.join(
+      os.homedir(),
+      "Library",
+      "Application Support",
+      "Google",
+      "Chrome",
+      "Local State",
+    );
+  }
+  return path.join(os.homedir(), ".config", "google-chrome", "Local State");
+}
+
+export async function defaultChromeRemoteDebuggingEnabled() {
+  try {
+    const state = JSON.parse(await readFile(chromeLocalStatePath(), "utf8"));
+    return state.devtools?.remote_debugging?.["user-enabled"] === true;
+  } catch {
+    return null;
+  }
+}
+
 async function runDevtools(args, timeout = 60_000) {
   try {
     const { stdout } = await execFileAsync(process.execPath, [DEVTOOLS_CLI, ...args], {
@@ -127,6 +160,13 @@ export async function newSwiggyPage(pathname = "/") {
   }
   const output = await runDevtools(["new_page", url, "--output-format=json"], 90_000);
   const result = JSON.parse(output);
+  if (Array.isArray(result)) {
+    const message = result
+      .filter((entry) => entry?.type === "text")
+      .map((entry) => entry.text)
+      .join("\n");
+    throw new Error(message || "Chrome DevTools could not open the page.");
+  }
   const selected = result.pages?.find((page) => page.selected) ?? result.pages?.at(-1);
   if (!selected?.id) throw new Error("Chrome opened the page but returned no page ID.");
   return selected.id;
@@ -144,6 +184,13 @@ export async function evaluateInPage(pageId, functionSource, timeout = 60_000) {
     timeout,
   );
   const envelope = JSON.parse(output);
+  if (Array.isArray(envelope)) {
+    const message = envelope
+      .filter((entry) => entry?.type === "text")
+      .map((entry) => entry.text)
+      .join("\n");
+    throw new Error(message || "Chrome DevTools could not evaluate the page.");
+  }
   const match = /```json\s*([\s\S]*?)\s*```/.exec(envelope.message ?? "");
   if (!match) throw new Error(envelope.message ?? "Chrome returned no JSON result.");
   return JSON.parse(match[1]);
