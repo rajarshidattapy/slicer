@@ -2,8 +2,15 @@ import asyncio
 import logging
 from fastapi import APIRouter, HTTPException
 from api.config import settings
-from api.models import AlertCreateRequest, AlertResponse
-from db.repository import create_alert, get_alerts, delete_alert, update_alert_check_time
+from api.models import AlertCreateRequest, AlertNotificationResponse, AlertResponse
+from db.repository import (
+    create_alert,
+    create_alert_notification,
+    delete_alert,
+    get_alert_notifications,
+    get_alerts,
+    update_alert_check_time,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +58,11 @@ async def list_price_alerts() -> list[AlertResponse]:
     ]
 
 
+@router.get("/notifications", response_model=list[AlertNotificationResponse])
+async def list_alert_notifications() -> list[AlertNotificationResponse]:
+    return [AlertNotificationResponse(**notification) for notification in await get_alert_notifications()]
+
+
 @router.delete("/{alert_id}")
 async def remove_price_alert(alert_id: int) -> dict[str, bool]:
     if alert_id <= 0:
@@ -75,16 +87,23 @@ async def run_alerts_check_cycle() -> None:
                         pin=alert.pin,
                         platforms=[alert.platform] if alert.platform else None,
                     )
-                    clean_query = alert.product_query.replace("\r", "").replace("\n", "")
                     for group in search_result.results:
                         if group.cheapest_price <= alert.target_price:
-                            logger.info(
-                                "Alert triggered for query '%s': found price ₹%s on %s (target: ₹%s)",
-                                clean_query,
-                                group.cheapest_price,
+                            notification = await create_alert_notification(
+                                alert.id,
+                                group.normalized_name,
                                 group.cheapest_platform,
-                                alert.target_price,
+                                group.cheapest_price,
                             )
+                            if notification:
+                                logger.info(
+                                    "Alert %s triggered: %s is ₹%s on %s (target: ₹%s)",
+                                    alert.id,
+                                    group.normalized_name,
+                                    group.cheapest_price,
+                                    group.cheapest_platform,
+                                    alert.target_price,
+                                )
                     await update_alert_check_time(alert.id)
                 except Exception as exc:
                     logger.error("Error checking alert %s: %s", alert.id, exc)

@@ -2,7 +2,7 @@ import asyncio
 import json
 import logging
 import time
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from api.config import settings
 from api.models import (
     SearchRequest,
@@ -72,10 +72,7 @@ async def run_single_scraper(
 async def resolve_lat_lon(pin: str, lat: float | None, lon: float | None) -> tuple[float, float]:
     place = await geocode_pin(pin)
     if not place:
-        return (
-            lat if lat is not None else settings.default_lat,
-            lon if lon is not None else settings.default_lon,
-        )
+        raise HTTPException(status_code=400, detail=f"Could not locate pincode {pin}")
     if lat is not None and lon is not None and abs(lat - place["lat"]) < 0.5 and abs(lon - place["lon"]) < 0.5:
         return (lat, lon)
     return (place["lat"], place["lon"])

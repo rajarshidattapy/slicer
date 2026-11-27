@@ -4,7 +4,7 @@ import logging
 from sqlalchemy import select, delete, desc
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from api.config import settings
-from db.schema import Base, Product, PriceSnapshot, Alert, SearchRecord
+from db.schema import Alert, AlertNotification, Base, Product, PriceSnapshot, SearchRecord
 
 logger = logging.getLogger(__name__)
 
@@ -195,6 +195,9 @@ async def delete_alert(alert_id: int) -> bool:
         try:
             async with AsyncSessionLocal() as session:
                 async with session.begin():
+                    await session.execute(
+                        delete(AlertNotification).where(AlertNotification.alert_id == alert_id)
+                    )
                     stmt = delete(Alert).where(Alert.id == alert_id)
                     result = await session.execute(stmt)
                     return result.rowcount > 0
@@ -215,3 +218,63 @@ async def update_alert_check_time(alert_id: int) -> None:
                         alert.last_checked = datetime.datetime.now(datetime.timezone.utc)
         except Exception as exc:
             logger.error("Failed to update alert check time: %s", exc)
+
+
+async def create_alert_notification(
+    alert_id: int, product_name: str, platform: str, price: float
+) -> AlertNotification | None:
+    """Store one notification per observed store price for an alert."""
+    async with _write_lock:
+        try:
+            async with AsyncSessionLocal() as session:
+                async with session.begin():
+                    existing = await session.scalar(
+                        select(AlertNotification).where(
+                            AlertNotification.alert_id == alert_id,
+                            AlertNotification.platform == platform,
+                            AlertNotification.price == price,
+                        )
+                    )
+                    if existing:
+                        return None
+                    notification = AlertNotification(
+                        alert_id=alert_id,
+                        product_name=product_name,
+                        platform=platform,
+                        price=price,
+                    )
+                    session.add(notification)
+                    await session.flush()
+                    await session.refresh(notification)
+                    return notification
+        except Exception as exc:
+            logger.error("Failed to create alert notification: %s", exc)
+            return None
+
+
+async def get_alert_notifications(limit: int = 50) -> list[dict]:
+    try:
+        async with AsyncSessionLocal() as session:
+            stmt = (
+                select(AlertNotification, Alert)
+                .join(Alert, AlertNotification.alert_id == Alert.id)
+                .order_by(desc(AlertNotification.created_at))
+                .limit(limit)
+            )
+            rows = (await session.execute(stmt)).all()
+            return [
+                {
+                    "id": notification.id,
+                    "alert_id": alert.id,
+                    "product_name": notification.product_name,
+                    "platform": notification.platform,
+                    "price": notification.price,
+                    "target_price": alert.target_price,
+                    "pin": alert.pin,
+                    "created_at": notification.created_at.isoformat(),
+                }
+                for notification, alert in rows
+            ]
+    except Exception as exc:
+        logger.error("Failed to list alert notifications: %s", exc)
+        return []

@@ -89,6 +89,17 @@ class AlertResponse(BaseModel):
     last_checked: str | None = None
 
 
+class AlertNotificationResponse(BaseModel):
+    id: int
+    alert_id: int
+    product_name: str
+    platform: str
+    price: float
+    target_price: float
+    pin: str
+    created_at: str
+
+
 class LocationUpdateRequest(BaseModel):
     pin: str | None = None
     lat: float | None = Field(default=None, ge=-90, le=90)

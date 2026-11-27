@@ -58,6 +58,23 @@ class Alert(Base):
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=utc_now)
     last_checked: Mapped[datetime.datetime | None] = mapped_column(DateTime, nullable=True)
 
+    notifications: Mapped[list["AlertNotification"]] = relationship(
+        "AlertNotification", back_populates="alert", cascade="all, delete-orphan"
+    )
+
+
+class AlertNotification(Base):
+    __tablename__ = "alert_notifications"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    alert_id: Mapped[int] = mapped_column(Integer, ForeignKey("alerts.id"), index=True)
+    product_name: Mapped[str] = mapped_column(String(512))
+    platform: Mapped[str] = mapped_column(String(64))
+    price: Mapped[float] = mapped_column(Float)
+    created_at: Mapped[datetime.datetime] = mapped_column(DateTime, default=utc_now, index=True)
+
+    alert: Mapped["Alert"] = relationship("Alert", back_populates="notifications")
+
 
 class SearchRecord(Base):
     __tablename__ = "searches"

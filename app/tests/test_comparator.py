@@ -3,6 +3,7 @@ import datetime
 import os
 import unittest
 import httpx
+from unittest.mock import AsyncMock, patch
 from api.main import app
 from api.models import PlatformProduct
 from api.matching import (
@@ -22,7 +23,9 @@ from db.repository import (
     engine,
     init_database,
     create_alert,
+    create_alert_notification,
     get_alerts,
+    get_alert_notifications,
     delete_alert,
     update_alert_check_time,
     save_product_and_snapshot,
@@ -315,6 +318,16 @@ class TestDatabaseRepository(unittest.IsolatedAsyncioTestCase):
         alerts = await get_alerts(active_only=True)
         self.assertTrue(any(a.id == alert.id for a in alerts))
 
+        notification = await create_alert_notification(
+            alert.id, "Test Milk 500ml", "zepto", 39.0
+        )
+        self.assertIsNotNone(notification)
+        self.assertIsNone(
+            await create_alert_notification(alert.id, "Test Milk 500ml", "zepto", 39.0)
+        )
+        notifications = await get_alert_notifications()
+        self.assertTrue(any(n["alert_id"] == alert.id for n in notifications))
+
         await update_alert_check_time(alert.id)
 
         deleted = await delete_alert(alert.id)
@@ -367,6 +380,11 @@ class TestAPIEndpoints(unittest.IsolatedAsyncioTestCase):
             res = await client.post("/location", json={"pin": "000000"})
             self.assertEqual(res.status_code, 400)
 
+            with patch("api.search.geocode_pin", new=AsyncMock(return_value=None)):
+                res = await client.post("/search", json={"query": "milk", "pin": "000000"})
+            self.assertEqual(res.status_code, 400)
+            self.assertIn("Could not locate pincode", res.json()["detail"])
+
             res = await client.get("/openapi.json")
             self.assertEqual(res.status_code, 200)
 
@@ -384,6 +402,10 @@ class TestAPIEndpoints(unittest.IsolatedAsyncioTestCase):
 
             res = await client.get("/alerts")
             self.assertEqual(res.status_code, 200)
+
+            res = await client.get("/alerts/notifications")
+            self.assertEqual(res.status_code, 200)
+            self.assertIsInstance(res.json(), list)
 
             res = await client.delete(f"/alerts/{created_alert['id']}")
             self.assertEqual(res.status_code, 200)

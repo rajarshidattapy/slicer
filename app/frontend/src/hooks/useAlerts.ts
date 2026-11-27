@@ -11,8 +11,20 @@ export interface Alert {
   last_checked?: string | null
 }
 
+export interface AlertNotification {
+  id: number
+  alert_id: number
+  product_name: string
+  platform: string
+  price: number
+  target_price: number
+  pin: string
+  created_at: string
+}
+
 export function useAlerts() {
   const [alerts, setAlerts] = useState<Alert[]>([])
+  const [notifications, setNotifications] = useState<AlertNotification[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -37,6 +49,24 @@ export function useAlerts() {
         .finally(() => {
           if (!signal?.aborted) {
             setLoading(false)
+          }
+        }),
+    []
+  )
+
+  const fetchNotifications = useCallback(
+    (signal?: AbortSignal) =>
+      fetch('/alerts/notifications', { signal })
+        .then(async (response) => {
+          if (!response.ok) {
+            throw new Error(`Could not load price alerts (${response.status})`)
+          }
+          const data: AlertNotification[] = await response.json()
+          setNotifications(data)
+        })
+        .catch((err: unknown) => {
+          if (!(err instanceof Error && err.name === 'AbortError')) {
+            setError(err instanceof Error ? err.message : 'Could not load price alerts')
           }
         }),
     []
@@ -100,13 +130,20 @@ export function useAlerts() {
   useEffect(() => {
     const controller = new AbortController()
     fetchAlerts(controller.signal)
+    fetchNotifications(controller.signal)
+    const pollId = window.setInterval(() => {
+      fetchAlerts()
+      fetchNotifications()
+    }, 30_000)
     return () => {
       controller.abort()
+      window.clearInterval(pollId)
     }
-  }, [fetchAlerts])
+  }, [fetchAlerts, fetchNotifications])
 
   return {
     alerts,
+    notifications,
     loading,
     error,
     fetchAlerts,

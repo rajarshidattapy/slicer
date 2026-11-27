@@ -14,7 +14,7 @@ export const AlertsPage: React.FC<AlertsPageProps> = ({
   initialQuery = '',
   initialPrice,
 }) => {
-  const { alerts, loading, error, addAlert, removeAlert } = useAlerts()
+  const { alerts, notifications, loading, error, addAlert, removeAlert } = useAlerts()
   const [query, setQuery] = useState(initialQuery)
   const [targetPrice, setTargetPrice] = useState(
     initialPrice ? Math.floor(initialPrice * 0.9).toString() : ''
@@ -51,7 +51,7 @@ export const AlertsPage: React.FC<AlertsPageProps> = ({
         <div className="flex flex-col gap-2">
           <h2>Watch a price</h2>
           <p className="text-muted">
-            The backend rechecks these on its own. It sends no notifications, so check back here.
+            The backend rechecks these automatically. Price drops appear below while this page is open.
           </p>
         </div>
 
@@ -117,6 +117,25 @@ export const AlertsPage: React.FC<AlertsPageProps> = ({
           {error && <p className="text-sm text-error">{error}</p>}
         </div>
       </form>
+
+      {notifications.length > 0 && (
+        <div className="flex flex-col">
+          <h3 className="max-w-none border-b-2 border-accent pb-2">
+            Price drops ({notifications.length})
+          </h3>
+          <ul className="m-0 flex list-none flex-col p-0">
+            {notifications.map((notification) => (
+              <li key={notification.id} className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-rule py-3">
+                <span className="font-medium">{notification.product_name}</span>
+                <span className="figure text-lg text-accent">{formatAmount(notification.price)}</span>
+                <span className="text-sm text-muted">
+                  {PLATFORM_INFO[notification.platform]?.name ?? notification.platform}, under {formatAmount(notification.target_price)}, {notification.pin} · {formatDate(notification.created_at)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="flex flex-col">
         <h3 className="max-w-none border-b-2 border-rule-ink pb-2">
